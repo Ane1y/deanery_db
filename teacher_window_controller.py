@@ -29,39 +29,48 @@ class Teacher_window(QtWidgets.QMainWindow):
         self.ui.addUserPushButton.clicked.connect(self.addUserClicked)
         self.ui.studentNameComboBox.currentIndexChanged.connect(self.studentName_changed)
         self.ui.teacherNameComboBox.currentIndexChanged.connect(self.studentName_changed)
-        self.ui.subjectNameComboBox.currentIndexChanged.connect(self.studentName_changed)
-
-        # self.ui.add_record_Button.clicked.connect(self.add_record_Button_clicked)
-        # self.ui.patients_comboBox.currentIndexChanged.connect(self.patients_change)
-        # self.ui.form_queue_button.clicked.connect(self.form_queue_button_clicked)
-        # self.ui.show_all_med_record_button.clicked.connect(self.show_all_med_records)
-        # self.ui.change_med_record_button.clicked.connect(self.change_med_record)
-        # self.ui.date_med_record_button.clicked.connect(self.show_by_date)
-
+        self.ui.SubjectComboBox.currentIndexChanged.connect(self.studentName_changed)
+        self.ui.addMarkPushButton.clicked.connect(self.addMarkClicked)
         self.show()
+
+    def addMarkClicked(self):
+        student_name = str(self.ui.studentNameComboBox.currentText())
+        teacher_name = str(self.ui.teacherNameComboBox.currentText())
+        subject_name = str(self.ui.SubjectComboBox.currentText())
+        mark_value = str(self.ui.markSpinBox.value())
+        self.db.cursor.execute("INSERT INTO marks (student_id, subject_id, teacher_id, value, date) "
+                               "VALUES ((SELECT id from People WHERE name = '{}'), "
+                               "(SELECT id from subject WHERE name = '{}'), "
+                               "(SELECT id from people WHERE name = '{}'), "
+                               "'{}', current_timestamp)".format(student_name, subject_name, teacher_name, mark_value))
+
+        self.db.cnxn.commit()
+        self.set_default_marks_table()
+
+
     def set_default_marks_table(self):
         self.db.cursor.execute("SELECT st.name, s.name, t.name, value, date from marks "
                                "left join people st on MARKS.STUDENT_ID = st.ID"
                                " left join people t on MARKS.TEACHER_ID = t.id "
-                               "left join subject s on MARKS.SUBJECT_ID = s.id")
+                               "left join subject s on MARKS.SUBJECT_ID = s.id order by date desc")
         filler.fillTable(self.ui.marksTableWidget, self.db.cursor, 5)
 
     def studentName_changed(self):
         student_name = str(self.ui.studentNameComboBox.currentText())
         teacher_name = str(self.ui.teacherNameComboBox.currentText())
-        subject_name = str(self.ui.subjectNameComboBox.currentText())
+        subject_name = str(self.ui.SubjectComboBox.currentText())
 
         if self.ui.studentNameComboBox.currentIndex() == 0 and self.ui.teacherNameComboBox.currentIndex() == 0 and \
-                self.ui.subjectNameComboBox.currentIndex() == 0:
+                self.ui.SubjectComboBox.currentIndex() == 0:
             self.set_default_marks_table()
-        elif self.ui.studentNameComboBox.currentIndex() == 0 and self.ui.subjectNameComboBox.currentIndex() == 0:
+        elif self.ui.studentNameComboBox.currentIndex() == 0 and self.ui.teacherNameComboBox.currentIndex() == 0:
             self.db.cursor.execute("SELECT st.name, s.name, t.name, value, date from marks "
                                "left join people st on MARKS.STUDENT_ID = st.ID"
                                " left join people t on MARKS.TEACHER_ID = t.id "
                                "left join subject s on MARKS.SUBJECT_ID = s.id "
-                                   "where t.name = '{}'".format(teacher_name))
+                                   "where s.name = '{}'".format(subject_name))
             filler.fillTable(self.ui.marksTableWidget, self.db.cursor, 5)
-        elif self.ui.teacherNameComboBox.currentIndex() == 0 and self.ui.subjectNameComboBox.currentIndex() == 0:
+        elif self.ui.teacherNameComboBox.currentIndex() == 0 and self.ui.SubjectComboBox.currentIndex() == 0:
 
             self.db.cursor.execute("SELECT st.name, s.name, t.name, value, date from marks "
                                "left join people st on MARKS.STUDENT_ID = st.ID"
@@ -69,14 +78,14 @@ class Teacher_window(QtWidgets.QMainWindow):
                                "left join subject s on MARKS.SUBJECT_ID = s.id "
                                    "where st.name = '{}'".format(student_name))
             filler.fillTable(self.ui.marksTableWidget, self.db.cursor, 5)
-        elif self.ui.subjectNameComboBox.currentIndex() == 0 and self.ui.studentNameComboBox.currentIndex() == 0 :
+        elif self.ui.SubjectComboBox.currentIndex() == 0 and self.ui.studentNameComboBox.currentIndex() == 0 :
             self.db.cursor.execute("SELECT st.name, s.name, t.name, value, date from marks "
                                "left join people st on MARKS.STUDENT_ID = st.ID"
                                " left join people t on MARKS.TEACHER_ID = t.id "
                                "left join subject s on MARKS.SUBJECT_ID = s.id"
                                 " where t.name = '{}'".format(teacher_name))
             filler.fillTable(self.ui.marksTableWidget, self.db.cursor, 5)
-        elif self.ui.subjectNameComboBox.currentIndex() == 0 and self.ui.teacherNameComboBox.currentIndex() == 0:
+        elif self.ui.SubjectComboBox.currentIndex() == 0 and self.ui.teacherNameComboBox.currentIndex() == 0:
             self.db.cursor.execute("SELECT st.name, s.name, t.name, value, date from marks "
                                "left join people st on MARKS.STUDENT_ID = st.ID"
                                " left join people t on MARKS.TEACHER_ID = t.id "
@@ -84,7 +93,7 @@ class Teacher_window(QtWidgets.QMainWindow):
                                 " where t.name = '{}'".format(student_name))
             filler.fillTable(self.ui.marksTableWidget, self.db.cursor, 5)
 
-        elif self.ui.subjectNameComboBox.currentIndex() == 0:
+        elif self.ui.SubjectComboBox.currentIndex() == 0:
             self.db.cursor.execute("SELECT st.name, s.name, t.name, value, date from marks "
                                "left join people st on MARKS.STUDENT_ID = st.ID"
                                " left join people t on MARKS.TEACHER_ID = t.id "
@@ -107,9 +116,26 @@ class Teacher_window(QtWidgets.QMainWindow):
         type = str(self.ui.typeComboBox.currentText())
         self.db.cursor.execute("Select id from groups where name = '3084/2_2018'")
         number = self.db.cursor.fetchone()
-        #self.db.cursor.execute("INSERT INTO people(first_name, last_name, pather_name, group_id, type)"
-                              # " VALUES('Смирнов', 'Антон', 'Николаевич', 6, 'S')")
-
+        if type == 'Student':
+            type = 'S'
+            self.db.cursor.execute("INSERT INTO people(first_name, last_name, pather_name, group_id, type, name)"
+                                   " VALUES('{}', '{}', '{}', '{}', '{}', CONCAT('{}', ' ', '{}', ' ', '{}'))".format(
+                first_name,
+                last_name, pather_name, number[0], type, first_name,
+                last_name, pather_name))
+        else:
+            type = 'P'
+            self.db.cursor.execute("INSERT INTO people(first_name, last_name, pather_name, type, name)"
+                                   " VALUES('{}', '{}', '{}', '{}', CONCAT('{}', ' ', '{}', ' ', '{}'))".format(
+                first_name,
+                last_name, pather_name, type, first_name,
+                last_name, pather_name))
+        self.db.cursor.execute("INSERT INTO people(first_name, last_name, pather_name, group_id, type, name)"
+                              " VALUES('{}', '{}', '{}', '{}', '{}', CONCAT('{}', ' ', '{}', ' ', '{}'))".format(first_name,
+                                                last_name, pather_name, number[0], type, first_name,
+                                                last_name, pather_name))
+        self.db.cnxn.commit()
+    #TODO: сделать регистрацию по номеру телефона и паролю
 
     def numGroupsWIthMarksClicked(self):
         name = str(self.ui.groupComboBox.currentText())
@@ -241,7 +267,12 @@ class Teacher_window(QtWidgets.QMainWindow):
 
         self.set_default_marks_table()
 
+        self.db.cursor.execute("SELECT name from groups")
+        filler.fillComboBox(self.ui.groupNumComboBox, self.db.cursor)
 
+        self.ui.typeComboBox.clear()
+        self.ui.typeComboBox.addItem("Student")
+        self.ui.typeComboBox.addItem("Teacher")
         # self.db.cursor.execute(
         #     "SELECT S.name, S.id from Physicians Ph LEFT JOIN Specialization S on Ph.specialization_id = S.id WHERE Ph.user_id=" + str(
         #         teacher_id))
