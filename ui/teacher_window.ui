@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>972</width>
+    <width>998</width>
     <height>850</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>30</x>
      <y>10</y>
-     <width>911</width>
+     <width>941</width>
      <height>791</height>
     </rect>
    </property>
@@ -50,7 +50,7 @@
     <item>
      <widget class="QTabWidget" name="mainTabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="groupsTab">
        <attribute name="title">
@@ -61,7 +61,7 @@
          <rect>
           <x>20</x>
           <y>10</y>
-          <width>871</width>
+          <width>902</width>
           <height>711</height>
          </rect>
         </property>
@@ -91,6 +91,18 @@
          </item>
          <item>
           <widget class="QTableWidget" name="groupTableWidget">
+           <property name="cursor" stdset="0">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+            <bool>true</bool>
+           </attribute>
            <column>
             <property name="text">
              <string>Номер группы</string>
@@ -207,7 +219,45 @@
            <item>
             <widget class="QPushButton" name="pushButton_2">
              <property name="text">
-              <string>PushButton</string>
+              <string>Удалить группу с самым маленьким  баллом и студентов,принадлежащих ей</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Какая группа была удалена</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <item>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_17">
+             <property name="text">
+              <string>если в удаленной группе читались 3 предмета – транзакцию откатить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>Состояние</string>
              </property>
             </widget>
            </item>
@@ -225,7 +275,7 @@
          <rect>
           <x>30</x>
           <y>10</y>
-          <width>871</width>
+          <width>891</width>
           <height>711</height>
          </rect>
         </property>
@@ -360,6 +410,59 @@
           </widget>
          </item>
          <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="1" column="1">
+            <widget class="QTableWidget" name="yearMarksTableWidget">
+             <column>
+              <property name="text">
+               <string>Год</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Балл</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTableWidget" name="avgMarkByTeacherTableWidget">
+             <column>
+              <property name="text">
+               <string>Предмет</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Преподаватель</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Средний балл</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_21">
+             <property name="text">
+              <string>Создать представление, отображающее всех преподавателей, предметы и средний балл,
+-- выставляемый ими, агрегируя по предметам</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_22">
+             <property name="text">
+              <string>Создать представление, отображающее средние баллы,
+  агрегируя оценки по годам</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QPushButton" name="pushButton_5">
@@ -403,8 +506,8 @@
          <rect>
           <x>20</x>
           <y>10</y>
-          <width>871</width>
-          <height>711</height>
+          <width>901</width>
+          <height>701</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -435,6 +538,180 @@
           <widget class="QTableWidget" name="subjectTableWidget"/>
          </item>
          <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_20">
+           <item>
+            <widget class="QLabel" name="label_24">
+             <property name="text">
+              <string>Выборка  средних баллов по группам,
+ попавшим в этот интервал</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_25">
+             <property name="text">
+              <string>От</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="beginDateEdit">
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2018</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+             <property name="maximumDateTime">
+              <datetime>
+               <hour>23</hour>
+               <minute>59</minute>
+               <second>59</second>
+               <year>2021</year>
+               <month>12</month>
+               <day>31</day>
+              </datetime>
+             </property>
+             <property name="minimumDateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2015</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>До</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="endDateEdit">
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2020</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+             <property name="maximumDateTime">
+              <datetime>
+               <hour>23</hour>
+               <minute>59</minute>
+               <second>59</second>
+               <year>2021</year>
+               <month>12</month>
+               <day>31</day>
+              </datetime>
+             </property>
+             <property name="minimumDateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2015</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+             <property name="minimumDate">
+              <date>
+               <year>2015</year>
+               <month>9</month>
+               <day>14</day>
+              </date>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="avgMarksInIntervalButton">
+             <property name="text">
+              <string>Выполнить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="saveIntervalButton">
+             <property name="text">
+              <string>Сохранить результаты в файл </string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_18">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetNoConstraint</enum>
+           </property>
+           <item>
+            <widget class="QLabel" name="label_23">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Все предметы, по которым в заданном году
+ были выставлены оценки
+,  и средний балл по каждому из предметов</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_8">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QComboBox" name="yearComboBox">
+             <property name="maxVisibleItems">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="yearSubjectTableWidget">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <column>
+            <property name="text">
+             <string>Предмет</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Оценка</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
             <widget class="QPushButton" name="pushButton_9">
@@ -461,6 +738,201 @@
             <widget class="QPushButton" name="pushButton_12">
              <property name="text">
               <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Queries</string>
+       </attribute>
+       <widget class="QWidget" name="verticalLayoutWidget_5">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>10</y>
+          <width>851</width>
+          <height>531</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QComboBox" name="groupPointerComboBox_2"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="changeNameOfGroupLineEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="changeNameOfGroupButton">
+             <property name="text">
+              <string>Поменять название группы</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <item>
+            <widget class="QComboBox" name="groupPointerComboBox1_2"/>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="changeNameOfSubjectLinEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="changeNameOfSubjectButton">
+             <property name="text">
+              <string>Поменять название предмета</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Заменить во всех существующих записях заданный предмет на другой и удалить этот предмет из таблицы предметов</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_15">
+           <item>
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Какой предмет удалить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="subjectComboBox1"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>На какой заменить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="subjectComboBox2"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_15">
+             <property name="text">
+              <string>Да!</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Eсли преподаватель, читающий удаляемый предмет, больше ничего не читает – откатить транзакцию.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Какой предмет удалить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="subjectComboBox3"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>На какой заменить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="subjectComboBox4"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_13">
+             <property name="text">
+              <string>Да!</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_17">
+           <item>
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>Вывести студентов и наименования предметов, включая предметы,
+-- которые не читались студентам и студентов, которые не получили ни одной оценки</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="studentSubjectTableWidget">
+           <column>
+            <property name="text">
+             <string>Студент</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Предмет</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Создать копию заданной группы (со студентами) с увеличением курса на 1</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <widget class="QComboBox" name="groupPointerComboBox2"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="copyGroupButton">
+             <property name="text">
+              <string>Да!</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Новый номер</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="turnGroupBackButton">
+             <property name="text">
+              <string>Вернуть все обратно</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>Новый номер</string>
              </property>
             </widget>
            </item>
