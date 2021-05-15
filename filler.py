@@ -181,14 +181,11 @@ def delete_row(obj, table, table_name, index_column):
         error_message.setWindowTitle("Некорректный ввод")
         error_message.showMessage("У этого пациента есть записи в очереди, он скоро к вам придет")
 
-def unite_name(name_list) :
-    name = ''
-    for i in name_list[0]:
-        name += str(i) + ' '
-    return name
 
-def fillComboBoxWithNames(comboBox, names_list):
-    comboBox.clear()
-    comboBox.addItem("")
-    for i in names_list:
-        comboBox.addItem(i)
+def fillMultipleComboBox(comboBoxList, cursor, query):
+    for comboBox in comboBoxList:
+        cursor.execute(query)
+        comboBox.clear()
+        comboBox.addItem("")
+        for i in cursor:
+            comboBox.addItem(str(i[0]))

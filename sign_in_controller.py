@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+# !/usr/bin/env python
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QLineEdit
 
@@ -13,7 +15,7 @@ class sign_inWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.ui = loginmain()
         self.ui.setupUi(self)
-        self.setWindowTitle("Вход")
+        self.setWindowTitle("Р’С…РѕРґ")
         self.ui.sign_in_button.clicked.connect(self.sign_in_button_clicked)
         #self.ui.sign_up_button.clicked.connect(self.sign_up_button_clicked)
         self.ui.password_lineEdit.setEchoMode(QLineEdit.Password)
@@ -24,60 +26,55 @@ class sign_inWindow(QtWidgets.QMainWindow):
         l = self.ui.phone_lineEdit.text()
         p = self.ui.password_lineEdit.text()
         if (l.strip() == ''):
-            message = "Введите номер телефона"
+            message = "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°"
             error_message = QtWidgets.QErrorMessage(self)
             error_message.setModal(True)
-            error_message.setWindowTitle("Ошибка входа")
+            error_message.setWindowTitle("РћС€РёР±РєР° РІС…РѕРґР°")
             error_message.showMessage(message)
             if len(l) != 0:
                 self.ui.phone_lineEdit.clear()
             self.ui.password_lineEdit.clear()
         elif (p.strip() == ''):
-            message = "Пароль не введен. Попробуйте еще раз!"
+            message = "РџР°СЂРѕР»СЊ РЅРµ РІРІРµРґРµРЅ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·!"
             error_message = QtWidgets.QErrorMessage(self)
             error_message.setModal(True)
-            error_message.setWindowTitle("Ошибка входа")
+            error_message.setWindowTitle("РћС€РёР±РєР° РІС…РѕРґР°")
             error_message.showMessage(message)
             if len(p) != 0:
                 self.ui.password_lineEdit.clear()
 
         elif not(l.isdecimal()):
 
-            message = "Недопустимый символ в поле логина. Проверьте правильность данных и повторите вход."
+            message = "РќРµРґРѕРїСѓСЃС‚РёРјС‹Р№ СЃРёРјРІРѕР» РІ РїРѕР»Рµ Р»РѕРіРёРЅР°. РџСЂРѕРІРµСЂСЊС‚Рµ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ РґР°РЅРЅС‹С… Рё РїРѕРІС‚РѕСЂРёС‚Рµ РІС…РѕРґ."
             error_message = QtWidgets.QErrorMessage(self)
             error_message.setModal(True)
-            error_message.setWindowTitle("Ошибка входа")
+            error_message.setWindowTitle("РћС€РёР±РєР° РІС…РѕРґР°")
             error_message.showMessage(message)
             self.ui.phone_lineEdit.clear()
             self.ui.password_lineEdit.clear()
 
         elif (p.find(' ') != -1):
-            message = "Данного пользователя не существует или введен неверный пароль! Проверьте правильность данных и повторите вход."
+            message = "Р”Р°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РёР»Рё РІРІРµРґРµРЅ РЅРµРІРµСЂРЅС‹Р№ РїР°СЂРѕР»СЊ! РџСЂРѕРІРµСЂСЊС‚Рµ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ РґР°РЅРЅС‹С… Рё РїРѕРІС‚РѕСЂРёС‚Рµ РІС…РѕРґ."
             error_message = QtWidgets.QErrorMessage(self)
             error_message.setModal(True)
-            error_message.setWindowTitle("Ошибка входа")
+            error_message.setWindowTitle("РћС€РёР±РєР° РІС…РѕРґР°")
             error_message.showMessage(message)
             self.ui.password_lineEdit.clear()
 
-        else: # если прошли все проверки начинаем проверку пользователя по БД
+        else: # РµСЃР»Рё РїСЂРѕС€Р»Рё РІСЃРµ РїСЂРѕРІРµСЂРєРё РЅР°С‡РёРЅР°РµРј РїСЂРѕРІРµСЂРєСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїРѕ Р‘Р”
             status, role, id = self.db.checkPassword(l, p)
             if (status == False):
-                message = "Не найден пользователь с таким логином/паролем"
+                message = "РќРµ РЅР°Р№РґРµРЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЃ С‚Р°РєРёРј Р»РѕРіРёРЅРѕРј/РїР°СЂРѕР»РµРј"
                 error_message = QtWidgets.QErrorMessage(self)
                 error_message.setModal(True)
-                error_message.setWindowTitle("Ошибка входа")
+                error_message.setWindowTitle("РћС€РёР±РєР° РІС…РѕРґР°")
                 error_message.showMessage(message)
                 self.ui.password_lineEdit.clear()
             else:
                 user_info.current_role = role
                 user_info.current_userID = id
-                if user_info.current_role == "physician":
-                    #TODO: переделать проверка на админа
-                    self.db.cursor.execute("SELECT type from people where user_id = %s", str(id))
-                    role_id = self.db.cursor.fetchone()
-                    if role_id[0] == 2:
-                        user_info.admin = True
-                    self.menu = Teacher_window()
+                #if user_info.current_role == "p":
+                self.menu = Teacher_window()
                 # else:
                 #      self.menu = Student_window()
                 self.close()

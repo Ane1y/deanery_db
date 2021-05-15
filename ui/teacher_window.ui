@@ -50,7 +50,7 @@
     <item>
      <widget class="QTabWidget" name="mainTabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="groupsTab">
        <attribute name="title">
@@ -67,53 +67,66 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QComboBox" name="groupComboBox"/>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="1" column="0">
+            <widget class="QTableWidget" name="groupTableWidget">
+             <property name="cursor" stdset="0">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+              <bool>true</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string>Номер группы</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Средний балл</string>
+              </property>
+             </column>
+            </widget>
            </item>
-           <item>
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Minimum</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+           <item row="1" column="1">
+            <widget class="QTableWidget" name="studentTableWidget">
+             <column>
+              <property name="text">
+               <string>ФИО</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QComboBox" name="groupComboBox"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Minimum</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
           </layout>
-         </item>
-         <item>
-          <widget class="QTableWidget" name="groupTableWidget">
-           <property name="cursor" stdset="0">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="selectionBehavior">
-            <enum>QAbstractItemView::SelectRows</enum>
-           </property>
-           <property name="sortingEnabled">
-            <bool>true</bool>
-           </property>
-           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-            <bool>true</bool>
-           </attribute>
-           <column>
-            <property name="text">
-             <string>Номер группы</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Средний балл</string>
-            </property>
-           </column>
-          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -217,16 +230,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="deleteSmallMarkGroupButton">
              <property name="text">
               <string>Удалить группу с самым маленьким  баллом и студентов,принадлежащих ей</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_15">
-             <property name="text">
-              <string>Какая группа была удалена</string>
              </property>
             </widget>
            </item>
@@ -248,16 +254,9 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_17">
+            <widget class="QPushButton" name="notdeletingGroupIfTheyHave3SubjectsButton">
              <property name="text">
               <string>если в удаленной группе читались 3 предмета – транзакцию откатить</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>Состояние</string>
              </property>
             </widget>
            </item>
@@ -349,6 +348,27 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <item>
+            <widget class="QPushButton" name="deleteStudentButton">
+             <property name="text">
+              <string>Удалить студента</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="minAvgMarkFromTeacherButton">
+             <property name="text">
+              <string>Группа с наименьшим средним баллом у  преподавателя</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_27">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_6">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -413,6 +433,12 @@
           <layout class="QGridLayout" name="gridLayout">
            <item row="1" column="1">
             <widget class="QTableWidget" name="yearMarksTableWidget">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <column>
               <property name="text">
                <string>Год</string>
@@ -463,18 +489,152 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <layout class="QHBoxLayout" name="horizontalLayout_21">
            <item>
-            <widget class="QPushButton" name="pushButton_5">
+            <widget class="QLabel" name="label_28">
              <property name="text">
-              <string>PushButton</string>
+              <string>Расчет успеваемости</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_6">
+            <widget class="QLabel" name="label_29">
              <property name="text">
-              <string>PushButton</string>
+              <string>От</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="beginDateEdit_2">
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2018</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+             <property name="maximumDateTime">
+              <datetime>
+               <hour>23</hour>
+               <minute>59</minute>
+               <second>59</second>
+               <year>2021</year>
+               <month>12</month>
+               <day>31</day>
+              </datetime>
+             </property>
+             <property name="minimumDateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2015</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string>До</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="endDateEdit_2">
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2020</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+             <property name="maximumDateTime">
+              <datetime>
+               <hour>23</hour>
+               <minute>59</minute>
+               <second>59</second>
+               <year>2021</year>
+               <month>12</month>
+               <day>31</day>
+              </datetime>
+             </property>
+             <property name="minimumDateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2015</year>
+               <month>9</month>
+               <day>14</day>
+              </datetime>
+             </property>
+             <property name="minimumDate">
+              <date>
+               <year>2015</year>
+               <month>9</month>
+               <day>14</day>
+              </date>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="getPerfomanceButton">
+             <property name="text">
+              <string>Выполнить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="savePerfomanceButton">
+             <property name="text">
+              <string>Сохранить результаты в файл </string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="cursorTableWidget">
+           <column>
+            <property name="text">
+             <string>Год</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Предмет</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Средний балл</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Разница с текущим годом </string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QSpinBox" name="smallMarkSpinBox"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="deleteStudentWithSmallMarksButton">
+             <property name="text">
+              <string>Удалить студентов, у которых средний балл ниже заданного</string>
              </property>
             </widget>
            </item>
@@ -531,6 +691,16 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="newNameForSubjectLineEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="newNameForSubjectButton">
+             <property name="text">
+              <string>Сменить название у прeдмета</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -666,9 +836,7 @@
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Все предметы, по которым в заданном году
- были выставлены оценки
-,  и средний балл по каждому из предметов</string>
+              <string>Все предметы, по которым в заданном году  были выставлены оценки,  и средний балл по каждому из предметов</string>
              </property>
             </widget>
            </item>
@@ -778,21 +946,7 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_13">
-           <item>
-            <widget class="QComboBox" name="groupPointerComboBox1_2"/>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="changeNameOfSubjectLinEdit"/>
-           </item>
-           <item>
-            <widget class="QPushButton" name="changeNameOfSubjectButton">
-             <property name="text">
-              <string>Поменять название предмета</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <layout class="QHBoxLayout" name="horizontalLayout_13"/>
          </item>
          <item>
           <widget class="QLabel" name="label_9">
@@ -824,59 +978,30 @@
             <widget class="QComboBox" name="subjectComboBox2"/>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_15">
+            <widget class="QPushButton" name="changeAndDeleteSubjectButton">
              <property name="text">
               <string>Да!</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="avoidDeletingTeachersButton">
+             <property name="text">
+              <string>Условие с 3 предметами </string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
          <item>
-          <widget class="QLabel" name="label_14">
-           <property name="text">
-            <string>Eсли преподаватель, читающий удаляемый предмет, больше ничего не читает – откатить транзакцию.</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_12">
-           <item>
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>Какой предмет удалить</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="subjectComboBox3"/>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>На какой заменить</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="subjectComboBox4"/>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_13">
-             <property name="text">
-              <string>Да!</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <layout class="QHBoxLayout" name="horizontalLayout_12"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
            <item>
             <widget class="QLabel" name="label_20">
              <property name="text">
-              <string>Вывести студентов и наименования предметов, включая предметы,
--- которые не читались студентам и студентов, которые не получили ни одной оценки</string>
+              <string>Вывести студентов и наименования предметов, включая предметы, которые не читались студентам и студентов, которые не получили ни одной оценки</string>
              </property>
             </widget>
            </item>
