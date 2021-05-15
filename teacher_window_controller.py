@@ -50,22 +50,40 @@ class Teacher_window(QtWidgets.QMainWindow):
         self.ui.changeAndDeleteSubjectButton.clicked.connect(self.changeAndDeleteSubjectClicked)
         self.ui.deleteStudentButton.clicked.connect(self.deleteStudentClicked)
 
+        self.ui.groupComboBox1.currentIndexChanged.connect(self.subjectWithSmallestAvgMarkClicked)
 
         self.ui.changeNameOfGroupButton.clicked.connect(self.changeNameOfGroupClicked)
         self.ui.avoidDeletingTeachersButton.clicked.connect(self.avoidDeletingTeachersChanged)
 
         self.show()
 
+    def subjectWithSmallestAvgMarkClicked(self):
+        self.ui.label_15.clear()
+        group_name = str(self.ui.groupComboBox1.currentText())
+        self.db.cursor.execute("SELECT id from groups where name = '{}'".format(group_name))
+        group_id = self.db.cursor.fetchone()
+
+        self.db.cursor.execute("Select * from lowest_of_the_lowest_avg_scores('{}')".format(group_id[0]))
+        answer = self.db.cursor.fetchone()
+        if answer[0] is not None:
+            self.db.cursor.execute("SELECT name from subject where id = '{}'".format(answer[0]))
+            subj_name = self.db.cursor.fetchone()
+            self.ui.label_11.setText(subj_name[0])
+            self.ui.label_15.setText(str(answer[1].real))
+        else:
+            self.ui.label_11.setText('У этой группы нет оценок')
+
+        lala = group_name
 
     def deleteStudentClicked(self):
         student = str(self.ui.studentNameComboBox.currentText())
         self.db.cursor.execute("Delete from people where name = '{}'".format(student))
+
     def groupComboBox_changed(self):
         num_group = str(self.ui.groupComboBox.currentText())
         self.db.cursor.execute("SELECT name from people where group_id = (SELECT id from "
                                "groups where name = '{}')".format(num_group))
         filler.fillTable(self.ui.studentTableWidget, self.db.cursor, 1)
-
 
     def avoidDeletingTeachersChanged(self):
         old_subject = str(self.ui.subjectComboBox1.currentText())
@@ -91,8 +109,8 @@ class Teacher_window(QtWidgets.QMainWindow):
         name = str(self.ui.changeNameOfGroupLineEdit.text())
         try:
             self.db.cursor.execute("UPDATE groups SET name = '{}'"
-                               " WHERE id = (SELECT id from groups "
-                               "where name = '{}')".format(name, old_name))
+                                   " WHERE id = (SELECT id from groups "
+                                   "where name = '{}')".format(name, old_name))
             self.db.cnxn.commit()
         except (Exception, sql.psycopg2.Error) as error:
             error_message = QtWidgets.QErrorMessage(self)
@@ -124,7 +142,7 @@ class Teacher_window(QtWidgets.QMainWindow):
         # TODO: не работает
         smallMark = str(self.ui.smallMarkSpinBox.text())
         self.db.cursor.execute("DELETE from People1 p "
-                               "where id in (Select id from (Select student_id as id, avg(COALESCE(value, 0)) as avg_mark from marks "
+                               "where id not in (Select id from (Select student_id as id, avg(COALESCE(value, 0)) as avg_mark from marks "
                                "FULL JOIN people1 p2 on marks.student_id = p2.id "
                                "GROUP BY student_id) as ia where avg_mark < '{}');".format(smallMark))
         self.db.cnxn.commit()
@@ -360,21 +378,21 @@ class Teacher_window(QtWidgets.QMainWindow):
         # self.db.cursor.execute("SELECT name from groups")
         # filler.fillComboBox(self.ui.groupComboBox, self.db.cursor)
 
-        self.db.cursor.execute("SELECT name From people where type = 'S' ")
+        self.db.cursor.execute("SELECT name From people where type = 'S' order by name")
         filler.fillComboBox(self.ui.studentNameComboBox, self.db.cursor)
 
-        self.db.cursor.execute("SELECT name From people where type = 'P' ")
+        self.db.cursor.execute("SELECT name From people where type = 'P' order by name")
         filler.fillComboBox(self.ui.teacherNameComboBox, self.db.cursor)
 
         self.db.cursor.execute("SELECT G.name, round(avg(COALESCE(value, 0)), 2) FROM people p "
                                "FULL JOIN marks m on p.id = m.student_id "
                                "RIGHT JOIN GROUPS G ON G.ID = P.GROUP_ID "
-                               "GROUP BY G.id;")
+                               "GROUP BY G.id ;")
         filler.fillTable(self.ui.groupTableWidget, self.db.cursor, 2)
 
         filler.fillMultipleComboBox([self.ui.subjectNameComboBox, self.ui.SubjectComboBox,
-                                     self.ui.SubjectComboBox, self.ui.SubjectComboBox, self.ui.subjectComboBox1,
-                                     self.ui.subjectComboBox2], self.db.cursor, 'SELECT name from subject')
+                                     self.ui.subjectComboBox1, self.ui.subjectComboBox2],
+                                    self.db.cursor, 'SELECT name from subject order by name')
         self.set_default_marks_table()
 
         self.ui.typeComboBox.clear()
@@ -399,7 +417,8 @@ class Teacher_window(QtWidgets.QMainWindow):
             self.ui.yearComboBox.addItem(str(i))
 
         filler.fillMultipleComboBox([self.ui.groupComboBox, self.ui.groupNumComboBox,
-                                     self.ui.groupPointerComboBox2, self.ui.groupPointerComboBox_2], self.db.cursor,
+                                     self.ui.groupPointerComboBox2, self.ui.groupPointerComboBox_2,
+                                     self.ui.groupComboBox1], self.db.cursor,
                                     'SELECT name from groups')
 
         # subjectComboBox2
