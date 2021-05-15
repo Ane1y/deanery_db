@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QLineEdit
 import user_info
 from sign_in import Ui_Dialog as loginmain
 from teacher_window_controller import Teacher_window
-#from student_window_controller import Student_window
+from student_window_controller import Student_window
 import sql
 
 
@@ -73,10 +73,10 @@ class sign_inWindow(QtWidgets.QMainWindow):
             else:
                 user_info.current_role = role
                 user_info.current_userID = id
-                #if user_info.current_role == "p":
-                self.menu = Teacher_window()
-                # else:
-                #      self.menu = Student_window()
+                if user_info.current_role == "P":
+                    self.menu = Teacher_window()
+                else:
+                    self.menu = Student_window()
                 self.close()
                 self.menu.show()
 

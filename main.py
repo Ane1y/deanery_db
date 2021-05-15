@@ -3,7 +3,7 @@ import sys
 from PyQt5 import QtWidgets
 from sign_in_controller import sign_inWindow
 from sql import Sql
-from teacher_window_controller import Teacher_window
+from student_window_controller import Student_window
 
 
 
@@ -11,8 +11,8 @@ if __name__ == '__main__':
     db = Sql()
 
     app = QtWidgets.QApplication([])
-    # window = Admin_Controller()
-    window = sign_inWindow()
+    window = Student_window()
+    #window = sign_inWindow()
     window.show()
     db.cnxn.close()
     sys.exit(app.exec())
